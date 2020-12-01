@@ -59,7 +59,7 @@
 # values = [1721, 979, 366, 299, 675, 1456] # Expect 514579
 
 # Read data
-with open("1.data") as f:
+with open("01.data") as f:
     values = f.read().splitlines()
     values = [int(v) for v in values]
 
