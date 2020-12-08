@@ -7,64 +7,32 @@ with open("2020/08/08-sample.data") as f:
 values = [value.split(" ") for value in values]
 values = [[x, int(y)] for x, y in values]
 
-visited = list()
 
+def check(values: list):
+    accumulator = 0
+    next_instruction = 0
+    visited = list()
+    while True:
+        current_instruction = next_instruction
+        if next_instruction in visited:
+            return False
+        elif next_instruction >= len(values):
+            return accumulator
+        elif values[next_instruction][0] == "nop":
+            print("nop")
+            next_instruction += 1
+        elif values[next_instruction][0] == "acc":
+            print("acc")
+            accumulator += values[next_instruction][1]
+            next_instruction += 1
+        elif values[next_instruction][0] == "jmp":
+            print("jmp")
+            next_instruction += values[next_instruction][1]
+        else:
+            "Error Will Robinson!"
 
-def log_level(message, level):
-    for i in range(level):
-        print("-", end="")
-    print(message)
-
-
-def check(values: list, inst: str = 0, level: int = 0):
-    level += 1
-    global accumulator
-
-    if inst in visited:
-        # Check if it's a repeat
-        return False
-
-    elif inst > len(values):
-        return True
-
-    # Record the instructions we've seen
-    visited.append(inst)
-
-    if values[inst][0] == "nop":
-        log_level("nop", level)
-        return check(values, inst + 1, level)
-
-    elif values[inst][0] == "acc":
-        log_level(f"acc {values[inst][1]}", level)
-        accumulator += values[inst][1]
-        return check(values, inst + 1, level)
-
-    elif values[inst][0] == "jmp":
-        log_level(f"jmp {values[inst][1]}", level)
-        return check(values, inst + values[inst][1], level)
-
-
-def check1(values: list, inst: int = 0):
-    global accumulator
-    if inst in visited:
-        return False
-
-    visited.append(inst)
-
-    if values[inst][0] == "nop":
-        print("nop")
-        return check(inst + 1)
-
-    elif values[inst][0] == "acc":
-        print("acc", values[inst][1])
-        accumulator += values[inst][1]
-        return check(inst + 1)
-
-    elif values[inst][0] == "jmp":
-        print("jmp", values[inst][1])
-        return check(inst + values[inst][1])
-
-    return True
+        # Add the current instruction to the check for dupe
+        visited.append(current_instruction)
 
 
 for inst in range(len(values)):
@@ -75,10 +43,7 @@ for inst in range(len(values)):
     elif values[inst][0] == "jmp":
         v[inst][0] = "nop"
 
-    result = check1(v)
+    result = check(v)
     if result:
-        print(f"Accumulator is {accumulator}")
+        print(f"Accumulator is {result}")
         break
-
-
-# print(values)
