@@ -1,8 +1,8 @@
 from itertools import combinations
 
-preamble = 5
+preamble = 25
 
-with open("2020/09/09-sample.data", "r") as f:
+with open("2020/09/09.data", "r") as f:
     # sample data is a preamble of 5, live is 25
     values = f.read().splitlines()
 
@@ -38,8 +38,10 @@ def check_part_2(num_to_check: int):
             print(loop_test_values[i], end="+")
             test += loop_test_values[i]
 
-            if test == num_to_check:
+            if loop_test_values[i] > highest:
                 highest = loop_test_values[i]
+
+            if test == num_to_check:
                 print(f"== {num_to_check}")
                 break
             if test > num_to_check:
