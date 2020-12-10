@@ -1,4 +1,5 @@
 from itertools import combinations
+from time import sleep
 
 preamble = 25
 
@@ -27,14 +28,19 @@ def check_part_2(num_to_check: int):
     lowest = 99999999999999
     highest = -1
 
-    test_values = [x for x in values if x < num_to_check]
+    # test_values = [x for x in values if x < num_to_check]
+    test_values = values
     print(test_values)
     for start in range(len(test_values)):
         test = 0
-        lowest = test_values[start]
+        # reset lowest
+        lowest = 99999999999999
         print(f"Testing position {start}: ", end="")
         loop_test_values = test_values[start:]
         for i in range(len(loop_test_values)):
+            if loop_test_values[i] < lowest:
+                lowest = loop_test_values[i]
+
             print(loop_test_values[i], end="+")
             test += loop_test_values[i]
 
@@ -61,4 +67,5 @@ for pos in range(preamble, len(values)):
     if not last_check:
         print(f"{values[pos]} was not a valid number.")
         check_part_2(values[pos])
+        print(f"{values[pos]} was not a valid number.")
         break
